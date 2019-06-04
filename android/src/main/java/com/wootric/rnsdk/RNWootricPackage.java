@@ -1,4 +1,4 @@
-package com.reactlibrary;
+package com.wootric.rnsdk;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;
