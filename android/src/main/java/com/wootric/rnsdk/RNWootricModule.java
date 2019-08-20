@@ -1,5 +1,8 @@
 package com.wootric.rnsdk;
 
+import android.app.Activity;
+
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -53,67 +56,98 @@ public class RNWootricModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void configureWithClientID(String clientId, String accountToken) {
-    wootric = Wootric.init(getCurrentActivity(), clientId, accountToken);
+  public void configureWithClientID(String clientId, String accountToken, Promise promise) {
+    Activity currentActivity = getCurrentActivity();
+    if (currentActivity != null) {
+      wootric = Wootric.init(currentActivity, clientId, accountToken);
+      promise.resolve(true);
+    }
+    else {
+      promise.reject(new Error("RNWootric: Activity not available"));
+    }
   }
 
   @ReactMethod
   public void setEndUserEmail(String email) {
-    wootric.setEndUserEmail(email);
+    if (wootric != null) {
+      wootric.setEndUserEmail(email);
+    }
   }
 
   @ReactMethod
   public void setSurveyImmediately(boolean surveyImmediately) {
-    wootric.setSurveyImmediately(surveyImmediately);
+    if (wootric != null) {
+      wootric.setSurveyImmediately(surveyImmediately);
+    }
   }
 
   @ReactMethod
   public void setEndUserCreatedAt(double createdAt) {
-    wootric.setEndUserCreatedAt((long) createdAt);
+    if (wootric != null) {
+      wootric.setEndUserCreatedAt((long) createdAt);
+    }
   }
 
   @ReactMethod
   public void setEndUserExternalId(String externalId) {
-    wootric.setEndUserExternalId(externalId);
+    if (wootric != null) {
+      wootric.setEndUserExternalId(externalId);
+    }
   }
 
   @ReactMethod
   public void setEndUserPhoneNumber(String phoneNumber) {
-    wootric.setEndUserPhoneNumber(phoneNumber);
+    if (wootric != null) {
+      wootric.setEndUserPhoneNumber(phoneNumber);
+    }
   }
 
   @ReactMethod
   public void setEndUserProperties(ReadableMap properties) {
-    wootric.setProperties(toHashMap(properties));
+    if (wootric != null) {
+      wootric.setProperties(toHashMap(properties));
+    }
   }
 
   @ReactMethod
   public void showOptOut(boolean flag) {
-    wootric.setShowOptOut(flag);
+    if (wootric != null) {
+      wootric.setShowOptOut(flag);
+    }
   }
 
   @ReactMethod
   public void setFirstSurveyAfter(int value) {
-    wootric.setFirstSurveyDelay(value);
+    if (wootric != null) {
+      wootric.setFirstSurveyDelay(value);
+    }
   }
 
   @ReactMethod
   public void setCustomLanguage(String language) {
-    wootric.setLanguageCode(language);
+    if (wootric != null) {
+      wootric.setLanguageCode(language);
+    }
   }
 
   @ReactMethod
   public void setCustomProductName(String productName) {
-    wootric.setProductName(productName);
+    if (wootric != null) {
+      wootric.setProductName(productName);
+    }
   }
 
   @ReactMethod
   public void setCustomAudience(String audience) {
-    wootric.setRecommendTarget(audience);
+    if (wootric != null) {
+      wootric.setRecommendTarget(audience);
+    }
   }
 
   @ReactMethod
   public void showSurvey() {
-    wootric.survey();
+    if (wootric != null) {
+      wootric.survey();
+    }
   }
 }
