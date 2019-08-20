@@ -10,8 +10,13 @@
 
 RCT_EXPORT_MODULE();
 
-RCT_EXPORT_METHOD(configureWithClientID:(NSString *)clientID accountToken:(NSString *)accountToken) {
-  [Wootric configureWithClientID:clientID accountToken:accountToken];
+RCT_EXPORT_METHOD(configureWithClientID:(NSString *)clientID accountToken:(NSString *)accountToken resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+    @try {
+        [Wootric configureWithClientID:clientID accountToken:accountToken];
+        resolve(nil);
+    } @catch (NSException *exception) {
+        reject(@"RNWootric: configureWithClientID", exception.reason, nil);
+    }
 }
 
 RCT_EXPORT_METHOD(setEndUserEmail:(NSString *)email) {
